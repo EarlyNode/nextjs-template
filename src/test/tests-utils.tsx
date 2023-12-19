@@ -36,15 +36,11 @@ const customRender = (
     );
   };
 
-  const utils = rtlRender(ui, {
+  return rtlRender(ui, {
     wrapper: Wrapper,
     queries,
     ...options,
   });
-
-  return {
-    ...utils,
-  };
 };
 
 export { customRender as render };
