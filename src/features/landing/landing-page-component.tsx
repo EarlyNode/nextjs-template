@@ -1,7 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function LandingPageComponent() {
+import { useServerTranslation } from '../localization/server';
+
+type Props = {
+  params: {
+    lng: string;
+  };
+};
+
+export async function LandingPageComponent({ params: { lng } }: Props) {
+  const { t } = await useServerTranslation('landing', lng);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Image
@@ -13,8 +22,9 @@ export function LandingPageComponent() {
         priority
       />
 
-      <h1 className="mb-3 text-2xl font-semibold">Next JS Starter</h1>
+      <h1 className="mb-3 text-2xl font-semibold">{t('title')}</h1>
 
+      <span>lng: {lng}</span>
       <Link href="https://earlynode.com" target="_blank">
         EarlyNode
       </Link>
