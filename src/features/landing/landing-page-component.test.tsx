@@ -1,9 +1,13 @@
 import { screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { render } from '@/test/tests-utils';
 
 import { LandingPageComponent } from './landing-page-component';
+
+vi.mock('server-only', () => {
+  return {};
+});
 
 describe('Landing page component', () => {
   it('should render the landing page component', async () => {
@@ -31,7 +35,7 @@ describe('Landing page component', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: /dies ist eine einstiegsvorlagee/i,
+        name: /dies ist ein starter template/i,
       }),
     ).toBeInTheDocument();
 

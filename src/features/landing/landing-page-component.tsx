@@ -1,16 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useServerTranslation } from '../localization/server';
+import { getDictionary, Locale } from '@/app/[lng]/dictionaries';
 
 type Props = {
   params: {
-    lng: string;
+    lng: Locale;
   };
 };
 
 export async function LandingPageComponent({ params: { lng } }: Props) {
-  const { t } = await useServerTranslation('landing', lng);
+  const { title } = await getDictionary(lng, 'landing');
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Image
@@ -21,10 +22,7 @@ export async function LandingPageComponent({ params: { lng } }: Props) {
         height={24}
         priority
       />
-
-      <h1 className="mb-3 text-2xl font-semibold">{t('title')}</h1>
-
-      <span>lng: {lng}</span>
+      <h1 className="mb-3 text-2xl font-semibold">{title}</h1>
       <Link href="https://earlynode.com" target="_blank">
         EarlyNode
       </Link>
