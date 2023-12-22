@@ -8,7 +8,10 @@ test.describe('Landing', () => {
     expect(page.url()).toEqual('http://localhost:3000/');
 
     await expect(
-      page.getByRole('heading', { level: 1, name: /next js starter/i }),
+      page.getByRole('heading', {
+        level: 1,
+        name: /this is a starter template/i,
+      }),
     ).toBeVisible();
 
     await expect(
