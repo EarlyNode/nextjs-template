@@ -2,6 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { getDictionary, Locale } from '@/app/[lng]/dictionaries';
+import { Button } from '@/components/ui/button';
+
+import {
+  isValidUserSession,
+  logout,
+} from '../user-authentication/user-authentication-server-helpers';
 
 type Props = {
   params: {
@@ -10,6 +16,8 @@ type Props = {
 };
 
 export async function LandingPageComponent({ params: { lng } }: Props) {
+  const userId = await isValidUserSession();
+
   const { title } = await getDictionary(lng, 'landing');
 
   return (
@@ -26,6 +34,8 @@ export async function LandingPageComponent({ params: { lng } }: Props) {
       <Link href="https://earlynode.com" target="_blank">
         EarlyNode
       </Link>
+
+      {userId && <Button onClick={() => logout(userId)}>Logout</Button>}
     </main>
   );
 }

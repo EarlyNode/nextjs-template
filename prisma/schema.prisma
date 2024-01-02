@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") 
+}
+
+model UserProfile {
+  id                         String                   @id @default(cuid())
+  /// The Magic issuer of the user who created the account. Its a decentralized
+  /// identifier (DID) that uniquely identifies the user.
+  did                        String                   @unique
+  createdAt                  DateTime                 @default(now())
+  updatedAt                  DateTime                 @updatedAt
+  email                      String                   @unique
+}

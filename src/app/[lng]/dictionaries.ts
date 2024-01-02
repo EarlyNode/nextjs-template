@@ -12,22 +12,16 @@ type Dictionary = typeof dictionaries.en extends () => Promise<infer T>
 /** Type representing the supported locales. */
 export type Locale = keyof typeof dictionaries;
 
-export async function getDictionary(
-  locale: Locale,
-  namespace: keyof Dictionary,
-): Promise<Dictionary[keyof Dictionary]>;
-export async function getDictionary(locale: Locale): Promise<Dictionary>;
 /**
  * Dynamically loads a dictionary based on the provided locale and optionally a namespace.
  * @param {Locale} [locale='en'] - The locale for which to load the dictionary. Defaults to 'en'.
  * @namespace {keyof Dictionary} [namespace] - Optional namespace to filter the dictionary.
  * @returns {Promise<Dictionary | Dictionary[keyof Dictionary]>} - A promise that resolves to the loaded dictionary or a specific part of it.
  */
-export async function getDictionary(locale: Locale): Promise<Dictionary>;
 export async function getDictionary(
   locale: Locale = 'en',
   namespace?: keyof Dictionary,
-): Promise<Dictionary | Dictionary[keyof Dictionary]> {
+) {
   const dictionary = await dictionaries[locale ?? 'en']();
 
   if (namespace && namespace in dictionary) {
@@ -36,3 +30,11 @@ export async function getDictionary(
 
   return dictionary;
 }
+
+export const t = async (value: string) => {
+  const [namespace, key] = value.split(':');
+
+  const dictionary = await getDictionary('en', namespace as keyof Dictionary);
+
+  return dictionary[key as keyof typeof dictionary];
+};
